@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find My EV Charger | eChargers UK</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { display: inline-flex; align-items: center; text-decoration: none; }
+    .logo img { height: 32px; width: auto; display: block; }
+    .help-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .help-btn:hover { background: #333; }
+
+    /* ── Progress bar ── */
+    .progress-section {
+      position: sticky;
+      top: 61px;
+      z-index: 99;
+      background: #fff;
+    }
+    .progress-track {
+      height: 4px;
+      background: #e8e8e8;
+      width: 100%;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #1e3a2a;
+      border-radius: 0 2px 2px 0;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .progress-pct-row {
+      padding: 8px 0 4px;
+      display: flex;
+      justify-content: center;
+    }
+    .progress-pct-pill {
+      display: inline-block;
+      background: #f0f0f0;
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      transition: margin-left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Quiz container ── */
+    .quiz-container {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 44px 24px 80px;
+    }
+
+    /* ── Question ── */
+    .q-text {
+      font-size: 30px;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.25;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .q-sub {
+      font-size: 16px;
+      color: #999;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Options ── */
+    .options-grid { display: grid; gap: 10px; margin-bottom: 20px; }
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #f5f5f5;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: background 0.15s;
+      outline: none;
+    }
+    .option-btn:hover { background: #ebebeb; }
+    .option-btn.selected { background: #eef7ee; }
+    .radio-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      flex-shrink: 0;
+      position: relative;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .option-btn.selected .radio-dot { border-color: #1e3a2a; background: #1e3a2a; }
+    .radio-dot::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .option-btn.selected .radio-dot::after { opacity: 1; }
+    .opt-text { display: flex; flex-direction: column; }
+    .opt-label { font-size: 16px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+    .opt-desc { font-size: 13px; color: #999; margin-top: 2px; line-height: 1.3; }
+
+    /* ── Question images ── */
+    .q-images {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .q-image-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .q-image-item img {
+      width: 148px;
+      height: 148px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: #f5f5f5;
+      padding: 10px;
+      mix-blend-mode: multiply;
+    }
+    .q-image-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #999;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Info box ── */
+    .info-box {
+      background: #f0faf3;
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+    .info-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #2e7d52;
+      color: #2e7d52;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .info-text { font-size: 14px; color: #444; line-height: 1.6; }
+
+    /* ── Nav ── */
+    .q-nav { display: flex; align-items: center; margin-top: 4px; }
+    .btn-back {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .btn-back:hover { color: #444; }
+
+    /* ── Intro ── */
+    .intro-wrap {
+      max-width: 520px;
+      margin: 72px auto 0;
+      text-align: center;
+      padding: 0 24px;
+    }
+    .intro-badge {
+      display: inline-block;
+      background: #c8f000;
+      color: #1e3a2a;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 24px;
+    }
+    .intro-wrap h1 {
+      font-size: 42px;
+      font-weight: 800;
+      color: #111;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .intro-wrap > p {
+      font-size: 18px;
+      color: #777;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .start-btn {
+      background: #1e3a2a;
+      color: #fff;
+      border: none;
+      padding: 16px 48px;
+      font-size: 17px;
+      font-weight: 700;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .start-btn:hover { background: #2a5040; transform: translateY(-1px); }
+    .intro-perks {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      color: #999;
+      font-size: 14px;
+      margin-top: 28px;
+    }
+    .intro-perks span { display: flex; align-items: center; gap: 6px; }
+    .intro-perks .ti { font-size: 17px; color: #1e3a2a; }
+    .brand-strip {
+      max-width: 520px;
+      margin: 60px auto 0;
+      padding: 0 24px 80px;
+    }
+    .brand-strip-divider { border: none; border-top: 1px solid #eee; margin-bottom: 28px; }
+    .brand-strip-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    .brand-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px 36px;
+    }
+    .brand-logos img {
+      height: 22px;
+      width: auto;
+      max-width: 90px;
+      object-fit: contain;
+      opacity: 0.55;
+      filter: grayscale(1);
+      mix-blend-mode: multiply;
+      transition: opacity 0.2s;
+    }
+    .brand-logos img:hover { opacity: 0.85; }
+
+    /* ════════════════════════════════
+       RESULTS — Heatable card style
+    ════════════════════════════════ */
+    .results-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .results-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .results-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 8px;
+    }
+    .results-header p { font-size: 16px; color: #999; }
+
+    /* Result card — split layout */
+    .result-card {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+      margin-bottom: 20px;
+    }
+    .result-card.top { border-color: #1e3a2a; border-width: 2px; }
+
+    /* Card image/header area */
+    .card-hero {
+      background: #dff0eb;
+      padding: 20px 22px 28px;
+      position: relative;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-hero-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .badge-primary {
+      background: #1e3a2a;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+    .badge-secondary {
+      background: rgba(255,255,255,0.7);
+      color: #555;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+    .card-hero-star {
+      position: absolute;
+      bottom: 18px;
+      right: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #7a6000;
+      background: rgba(255,255,255,0.75);
+      border-radius: 99px;
+      padding: 3px 9px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    /* Brand logo overlay — top-right of hero */
+    .card-hero-brand {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: rgba(255,255,255,0.82);
+      border-radius: 8px;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-hero-brand img {
+      height: 20px;
+      width: auto;
+      max-width: 80px;
+      object-fit: contain;
+      display: block;
+    }
+    .card-hero-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 16px 0 8px;
+    }
+    .card-hero-img img {
+      height: 170px;
+      width: auto;
+      max-width: 280px;
+      object-fit: contain;
+      mix-blend-mode: multiply; /* removes white background */
+    }
+    /* Tariff compatibility row */
+    .tariff-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .tariff-row-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      flex-shrink: 0;
+    }
+    .tariff-pills {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .tariff-pill {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      background: #f0f0f0;
+      border-radius: 99px;
+      padding: 5px 13px;
+      white-space: nowrap;
+    }
+
+    /* Card detail area */
+    .card-body {
+      background: #fff;
+      padding: 26px 26px 0;
+    }
+    .card-product-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      text-decoration: none;
+      display: block;
+    }
+    .card-product-name:hover { text-decoration: underline; color: #1e3a2a; }
+    .card-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 24px;
+      margin-bottom: 18px;
+    }
+    .card-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      color: #444;
+      font-weight: 500;
+    }
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #eef7ee;
+      border: 1.5px solid #2e7d52;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .check-icon svg { width: 10px; height: 10px; stroke: #2e7d52; stroke-width: 2.5; fill: none; }
+
+    /* Experts say box */
+    .experts-box {
+      border: 1.5px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .experts-icon {
+      color: #2e7d52;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .experts-icon svg { width: 20px; height: 20px; }
+    .experts-body {}
+    .experts-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .experts-quote {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* Price box */
+    .price-box {
+      border: 1.5px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .price-col {}
+    .price-label { font-size: 12px; color: #999; margin-bottom: 4px; }
+    .price-amount { font-size: 26px; font-weight: 800; color: #111; }
+    .price-amount small { font-size: 13px; font-weight: 400; color: #bbb; }
+
+    /* CTA */
+    .card-cta {
+      padding: 0 0 26px;
+    }
+    .shop-btn {
+      display: block;
+      width: 100%;
+      background: #1e3a2a;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      padding: 16px;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 700;
+      transition: background 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+    .shop-btn:hover { background: #2a5040; }
+
+    /* Expert CTA below cards */
+    .expert-cta {
+      background: #f7f7f7;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .expert-cta p { font-size: 15px; color: #555; margin-bottom: 14px; }
+    .expert-cta a {
+      background: #1e3a2a;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .retake-wrap { text-align: center; }
+    .retake-btn {
+      background: none;
+      border: none;
+      color: #bbb;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .retake-btn:hover { color: #666; }
+
+    /* ── Shared utils ── */
+    .hidden { display: none !important; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate { animation: fadeUp 0.32s ease both; }
+
+    @media (max-width: 480px) {
+      .intro-wrap h1 { font-size: 30px; }
+      .q-text { font-size: 24px; }
+      .quiz-container, .results-container { padding: 32px 16px 60px; }
+      .card-hero-logo img { height: 34px; }
+      .card-product-name { font-size: 19px; }
+      .price-amount { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://echargersuk.co.uk" class="logo">
+    <img src="https://www.echargersuk.co.uk/cdn/shop/files/Secoundary_1_160x@2x.png?v=1770325310"
+         alt="eChargers UK" />
+  </a>
+  <a href="mailto:info@echargersuk.co.uk" class="help-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+    </svg>
+    Help
+  </a>
+</header>
+
+<!-- Progress bar (quiz only) -->
+<div class="progress-section hidden" id="progress-section">
+  <div class="progress-track">
+    <div class="progress-fill" id="prog-fill" style="width:20%"></div>
+  </div>
+  <div class="progress-pct-row">
+    <span class="progress-pct-pill" id="prog-pct">20% complete</span>
+  </div>
+</div>
+
+<!-- ── INTRO ── -->
+<div id="screen-intro">
+  <div class="intro-wrap">
+    <div class="intro-badge">Free · 5 questions · 60 seconds</div>
+    <h1>Find your perfect EV charger</h1>
+    <p>Answer a few quick questions and we'll match you to the right home charger — no jargon, no fuss.</p>
+    <button class="start-btn" onclick="startQuiz()">Get started →</button>
+    <div class="intro-perks">
+      <span><i class="ti ti-smart-home"></i> Tailored to your home</span>
+      <span><i class="ti ti-shield-check"></i> Expert-matched</span>
+      <span><i class="ti ti-gift"></i> Free to use</span>
+    </div>
+  </div>
+
+  <div class="brand-strip">
+    <hr class="brand-strip-divider" />
+    <div class="brand-strip-label">Brands we match you with</div>
+    <div class="brand-logos">
+      <img src="https://www.echargersuk.co.uk/cdn/shop/files/Myenergi_logo.png?v=1771167887"  alt="MyEnergi" />
+      <img src="https://www.echargersuk.co.uk/cdn/shop/files/Ohme_logo.png?v=1771167890"     alt="Ohme" />
+      <img src="https://www.echargersuk.co.uk/cdn/shop/files/Anderson_logo.png?v=1771167876" alt="Andersen" />
+      <img src="https://www.echargersuk.co.uk/cdn/shop/files/Pod_logo.png?v=1772382360"      alt="Pod Point" />
+      <img src="https://www.echargersuk.co.uk/cdn/shop/files/Evec.png?v=1771258299"          alt="Evec" />
+      <img src="https://www.echargersuk.co.uk/cdn/shop/files/Cord_logo.png?v=1772380498"     alt="Cord" />
+    </div>
+  </div>
+</div>
+
+<!-- ── QUIZ ── -->
+<div id="screen-quiz" class="hidden">
+  <div class="quiz-container">
+    <div id="question-content"></div>
+  </div>
+</div>
+
+<!-- ── RESULTS ── -->
+<div id="screen-results" class="hidden">
+  <div class="results-container" id="results-inner"></div>
+</div>
+
+<script>
+  // ─── Questions ────────────────────────────────────────────────────────────
+  const questions = [
+    {
+      id: 'supply',
+      text: 'What\'s your home electrical supply?',
+      sub: 'Most UK homes are single-phase. If you\'re not sure, it\'s almost certainly that.',
+      info: 'You can check by looking at your fuse board — if there\'s one large switch at the top, you\'re single-phase. Three-phase is rare in homes but enables faster 22kW charging.',
+      options: [
+        { v: 'single', label: 'Single-phase',  desc: 'Standard supply — the most common in UK homes' },
+        { v: 'three',  label: 'Three-phase',   desc: 'Less common — enables faster 22kW charging' },
+        { v: 'unsure', label: 'Not sure',      desc: 'We\'ll recommend a flexible option that works for both' }
+      ]
+    },
+    {
+      id: 'cable',
+      text: 'How do you want to connect your car?',
+      sub: 'This is about whether a cable is permanently attached to the charger.',
+      info: 'Tethered chargers are the most popular choice — the cable is always attached, ready to plug in. Untethered gives a cleaner wall finish but means storing your own cable.',
+      images: [
+        { src: 'https://www.echargersuk.co.uk/cdn/shop/files/Quartz_T_-_Midnight_Black_3d973a51-d265-4a5a-a475-f42280c6ef04.png', label: 'Tethered (cable attached)' },
+        { src: 'https://www.echargersuk.co.uk/cdn/shop/files/Quartz_-_Midnight_Black_8fbd735c-2e38-42d1-8fe2-3bc06fcf6b2b.png', label: 'Untethered (socket only)' }
+      ],
+      options: [
+        { v: 'tethered',   label: 'Tethered',       desc: 'Cable permanently attached — grab and go' },
+        { v: 'untethered', label: 'Untethered',      desc: 'Socket only — use your own cable each time' },
+        { v: 'nopref',     label: 'No preference',   desc: 'I\'m open to either option' }
+      ]
+    },
+    {
+      id: 'solar',
+      text: 'Do you have (or plan to get) solar panels?',
+      sub: 'Some chargers can use your surplus solar energy to charge your car for free.',
+      info: 'Solar-compatible chargers detect when your panels are generating surplus electricity and automatically use it to charge your car — often completely free of charge.',
+      images: [
+        { src: 'https://www.echargersuk.co.uk/cdn/shop/files/My-1.png', label: 'Zappi — charges from solar' }
+      ],
+      options: [
+        { v: 'yes', label: 'Yes — I have or plan to get solar', desc: 'I want to maximise free solar charging' },
+        { v: 'no',  label: 'No solar panels',                  desc: 'Just grid electricity at home' }
+      ]
+    },
+    {
+      id: 'tariff',
+      text: 'Which energy tariff are you on?',
+      sub: 'Smart EV tariffs let your charger charge automatically at the cheapest rate.',
+      info: 'Tariffs like Octopus Intelligent Go can bring overnight charging costs down to 6–10p per kWh (vs 30p+ in the day). Some chargers are built specifically around these tariffs.',
+      options: [
+        { v: 'octopus', label: 'Octopus Intelligent Go',  desc: 'Smart overnight charging with Octopus Energy' },
+        { v: 'ovo',     label: 'OVO Charge Anytime',      desc: 'Smart charging with OVO Energy' },
+        { v: 'other',   label: 'Another smart tariff',    desc: 'I use a different time-of-use rate' },
+        { v: 'none',    label: 'No smart tariff',         desc: 'Standard electricity rate' }
+      ]
+    },
+    {
+      id: 'budget',
+      text: 'What\'s your budget for the charger unit?',
+      sub: 'Hardware only — professional installation is typically an extra £100–£300.',
+      info: 'The OZEV grant (£350) may also be available for eligible properties, which can bring the effective cost down further. Your installer can advise on eligibility.',
+      options: [
+        { v: 'low',    label: 'Under £500',   desc: 'Great value, reliable daily charging' },
+        { v: 'mid',    label: '£500–£800',    desc: 'Smart features and quality build' },
+        { v: 'high',   label: '£800+',        desc: 'Premium design and performance' },
+        { v: 'unsure', label: 'Not sure yet', desc: 'Show me the best match regardless' }
+      ]
+    }
+  ];
+
+  // ─── Products ─────────────────────────────────────────────────────────────
+  const products = [
+    {
+      id: 'zappi',
+      brand: 'MyEnergi',
+      logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Myenergi_logo.png?v=1771167887',
+      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/My-1.png',
+      name: 'Zappi 7.4kW EV Charger',
+      tagline: 'The smart eco-charger built for solar',
+      rating: '4.8',
+      checks: ['Solar divert charging', 'Tethered or untethered', '7.4kW (22kW 3-phase option)'],
+      tariffs: ['octopus', 'ovo'],
+      expertQuote: 'The smartest choice if you have — or plan to get — solar panels. The Zappi automatically uses your surplus solar energy to charge your car, often for free.',
+      price: 'From £515',
+      url: 'https://www.echargersuk.co.uk/products/myenergi-zappi-2h22tb-7kw-22kw-multi-phase-tethered-black',
+      scores: {
+        supply_single:2, supply_three:3, supply_unsure:2,
+        cable_tethered:2, cable_untethered:1, cable_nopref:2,
+        solar_yes:5, solar_no:1,
+        tariff_octopus:3, tariff_ovo:2, tariff_other:2, tariff_none:1,
+        budget_low:0, budget_mid:3, budget_high:2, budget_unsure:2
+      }
+    },
+    {
+      id: 'ohme',
+      brand: 'Ohme',
+      logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme_logo.png?v=1771167890',
+      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme_Home_Pro_5m_-_1.png',
+      name: 'Ohme Home Pro Smart Charger',
+      tagline: 'Built around smart tariffs',
+      rating: '4.7',
+      checks: ['Auto-charges at cheapest rate', 'Built-in display screen', 'Tethered 5m cable'],
+      tariffs: ['octopus', 'ovo'],
+      expertQuote: 'If you\'re on Octopus or OVO, this is the one. The Ohme is built specifically around smart tariffs and will automatically charge your car at the cheapest overnight rate.',
+      price: 'From £495',
+      url: 'https://www.echargersuk.co.uk/products/ohme-home-pro-7kw-tethered-5m-cable',
+      scores: {
+        supply_single:2, supply_three:1, supply_unsure:2,
+        cable_tethered:3, cable_untethered:0, cable_nopref:1,
+        solar_yes:0, solar_no:3,
+        tariff_octopus:4, tariff_ovo:4, tariff_other:2, tariff_none:1,
+        budget_low:2, budget_mid:2, budget_high:0, budget_unsure:2
+      }
+    },
+    {
+      id: 'andersen',
+      brand: 'Andersen EV',
+      logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Anderson_logo.png?v=1771167876',
+      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Quartz_-_Midnight_Black_c9adb4da-e0f1-4d68-bd0a-91a99b3b9b19.png',
+      name: 'Andersen Quartz EV Charger',
+      tagline: 'Premium, design-led home charging',
+      rating: '4.6',
+      checks: ['Custom colour & wood finishes', 'Concealed cable storage', 'App control'],
+      tariffs: [],
+      expertQuote: 'The premium choice for design-conscious homeowners. Available in bespoke wood and colour finishes — it\'s the only charger that genuinely enhances the look of your home.',
+      price: 'From £660',
+      url: 'https://www.echargersuk.co.uk/products/quartz-22kw-untethered',
+      scores: {
+        supply_single:2, supply_three:1, supply_unsure:2,
+        cable_tethered:0, cable_untethered:4, cable_nopref:2,
+        solar_yes:0, solar_no:2,
+        tariff_octopus:1, tariff_ovo:1, tariff_other:1, tariff_none:2,
+        budget_low:0, budget_mid:1, budget_high:5, budget_unsure:1
+      }
+    },
+    {
+      id: 'podpoint',
+      brand: 'Pod Point',
+      logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Pod_logo.png?v=1772382360',
+      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/PodPointSolo3S-Un1.png',
+      name: 'Pod Point Solo 3 EV Charger',
+      tagline: 'Reliable everyday home charging',
+      rating: '4.5',
+      checks: ['UK\'s most-installed charger', 'App scheduling', 'Simple to use'],
+      tariffs: [],
+      expertQuote: 'The reliable, no-nonsense choice. As the UK\'s most-installed home charger, the Solo 3 is trusted by tens of thousands of EV drivers — and at an excellent price.',
+      price: 'From £300',
+      url: 'https://www.echargersuk.co.uk/products/pod-point-solo-3s-ev-charger-tethered-5m-cable',
+      scores: {
+        supply_single:2, supply_three:1, supply_unsure:2,
+        cable_tethered:0, cable_untethered:3, cable_nopref:2,
+        solar_yes:0, solar_no:2,
+        tariff_octopus:1, tariff_ovo:1, tariff_other:1, tariff_none:3,
+        budget_low:5, budget_mid:1, budget_high:0, budget_unsure:2
+      }
+    }
+  ];
+
+  // ─── State ────────────────────────────────────────────────────────────────
+  let current = 0;
+  let answers = {};
+  let advanceTimer = null;
+
+  // ─── Quiz flow ────────────────────────────────────────────────────────────
+  function startQuiz() {
+    hide('screen-intro');
+    show('screen-quiz');
+    show('progress-section');
+    renderQ();
+  }
+
+  function renderQ() {
+    const q = questions[current];
+    const pct = Math.round(((current + 1) / questions.length) * 100);
+
+    el('prog-fill').style.width = pct + '%';
+    el('prog-pct').textContent = pct + '% complete';
+
+    el('question-content').innerHTML = `
+      <div class="q-text animate">${q.text}</div>
+      <div class="q-sub animate" style="animation-delay:0.05s">${q.sub}</div>
+      ${q.images ? `
+      <div class="q-images animate" style="animation-delay:0.08s">
+        ${q.images.map(img => `
+          <div class="q-image-item">
+            <img src="${img.src}" alt="${img.label}" />
+            <span class="q-image-label">${img.label}</span>
+          </div>
+        `).join('')}
+      </div>` : ''}
+      <div class="options-grid animate" style="animation-delay:0.1s">
+        ${q.options.map(o => `
+          <button class="option-btn ${answers[q.id] === o.v ? 'selected' : ''}"
+                  onclick="pick('${q.id}', '${o.v}', this)">
+            <div class="radio-dot"></div>
+            <div class="opt-text">
+              <span class="opt-label">${o.label}</span>
+              <span class="opt-desc">${o.desc}</span>
+            </div>
+          </button>
+        `).join('')}
+      </div>
+      <div class="info-box animate" style="animation-delay:0.15s">
+        <div class="info-icon">i</div>
+        <div class="info-text">${q.info}</div>
+      </div>
+      <div class="q-nav animate" style="animation-delay:0.18s">
+        ${current > 0 ? '<button class="btn-back" onclick="goBack()">← Back</button>' : ''}
+      </div>
+    `;
+  }
+
+  function pick(qId, val, btn) {
+    if (advanceTimer) clearTimeout(advanceTimer);
+    answers[qId] = val;
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    advanceTimer = setTimeout(goNext, 420);
+  }
+
+  function goNext() {
+    if (!answers[questions[current].id]) return;
+    if (current < questions.length - 1) {
+      current++;
+      renderQ();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      showResults();
+    }
+  }
+
+  function goBack() {
+    if (advanceTimer) clearTimeout(advanceTimer);
+    if (current > 0) { current--; renderQ(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  }
+
+  // ─── Scoring ──────────────────────────────────────────────────────────────
+  function calcScores() {
+    return products.map(p => {
+      let score = 0;
+      Object.entries(answers).forEach(([qId, val]) => {
+        const key = `${qId}_${val}`;
+        if (p.scores[key] != null) score += p.scores[key];
+      });
+      return { ...p, score };
+    }).sort((a, b) => b.score - a.score);
+  }
+
+  // ─── Results ──────────────────────────────────────────────────────────────
+  const checkSVG = `<svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>`;
+
+  function buildResultCard(p, isTop) {
+    const badgeLabel = isTop ? '⭐ Top pick for you' : 'Also worth considering';
+    const badgeClass = isTop ? 'badge-primary' : 'badge-secondary';
+
+    return `
+      <div class="result-card ${isTop ? 'top' : 'alt'} animate" style="animation-delay:${isTop ? '0.1' : '0.18'}s">
+
+        <div class="card-hero">
+          <div class="card-hero-badges">
+            <span class="${badgeClass}">${badgeLabel}</span>
+          </div>
+          <div class="card-hero-brand">
+            <img src="${p.logoUrl}" alt="${p.brand}" />
+          </div>
+          <div class="card-hero-star">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#e6a817" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            ${p.rating}/5
+          </div>
+          <div class="card-hero-img">
+            <a href="${p.url}" target="_blank">
+              <img src="${p.imageUrl}" alt="${p.name}" />
+            </a>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <a href="${p.url}" target="_blank" class="card-product-name">${p.name}</a>
+
+          <div class="card-checks">
+            ${p.checks.map(c => `
+              <div class="card-check">
+                <div class="check-icon">${checkSVG}</div>
+                ${c}
+              </div>
+            `).join('')}
+          </div>
+
+          ${p.tariffs && p.tariffs.length ? `
+          <div class="tariff-row">
+            <span class="tariff-row-label">Smart tariff compatible</span>
+            <div class="tariff-pills">
+              ${p.tariffs.includes('octopus') ? `<span class="tariff-pill">Octopus Intelligent Go</span>` : ''}
+              ${p.tariffs.includes('ovo') ? `<span class="tariff-pill">OVO Charge Anytime</span>` : ''}
+            </div>
+          </div>` : ''}
+
+          <div class="experts-box">
+            <div class="experts-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
+              </svg>
+            </div>
+            <div class="experts-body">
+              <div class="experts-label">Our experts say</div>
+              <div class="experts-quote">"${p.expertQuote}"</div>
+            </div>
+          </div>
+
+          <div class="price-box">
+            <div class="price-col">
+              <div class="price-label">Charger unit price</div>
+              <div class="price-amount">${p.price} <small>inc. VAT</small></div>
+            </div>
+          </div>
+
+          <div class="card-cta">
+            <a href="${p.url}" class="shop-btn" target="_blank">View charger details →</a>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  function showResults() {
+    hide('screen-quiz');
+    hide('progress-section');
+    const scored = calcScores();
+    const top = scored[0];
+    const alt = scored[1];
+
+    el('results-inner').innerHTML = `
+      <div class="results-header animate">
+        <h2>Your perfect match ⚡</h2>
+        <p>Based on your answers, here's what we recommend.</p>
+      </div>
+
+      ${buildResultCard(top, true)}
+      ${buildResultCard(alt, false)}
+
+      <div class="expert-cta animate" style="animation-delay:0.26s">
+        <p>Still not sure? Our team is happy to help you choose.</p>
+        <a href="mailto:info@echargersuk.co.uk">Chat to our experts</a>
+      </div>
+
+      <div class="retake-wrap animate" style="animation-delay:0.3s">
+        <button class="retake-btn" onclick="retake()">← Start again with different answers</button>
+      </div>
+    `;
+
+    show('screen-results');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function retake() {
+    current = 0; answers = {};
+    hide('screen-results');
+    hide('progress-section');
+    show('screen-intro');
+    el('results-inner').innerHTML = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function show(id) { el(id).classList.remove('hidden'); }
+  function hide(id) { el(id).classList.add('hidden'); }
+  function el(id) { return document.getElementById(id); }
+</script>
+</body>
+</html>
