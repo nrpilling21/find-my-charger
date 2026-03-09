@@ -406,7 +406,8 @@
       font-weight: 600;
       padding: 5px 12px;
       border-radius: 99px;
-    }    .card-hero-star {
+    }
+    .card-hero-star {
       position: absolute;
       bottom: 14px;
       right: 16px;
@@ -517,99 +518,8 @@
       text-decoration: none;
       display: block;
     }
-    .card-product-name:hover { text-decoration: underline; color: #1e3a2a; }    .card-checks {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 24px;
-      margin-bottom: 18px;
-    }
-    .card-check {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 14px;
-      color: #444;
-      font-weight: 500;
-    }
-    .check-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #eef7ee;
-      border: 1.5px solid #2e7d52;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .check-icon svg { width: 10px; height: 10px; stroke: #2e7d52; stroke-width: 2.5; fill: none; }
-
-    /* Experts say box */
-    .experts-box {
-      border: 1.5px solid #e8e8e8;
-      border-radius: 10px;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .experts-icon {
-      color: #2e7d52;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .experts-icon svg { width: 20px; height: 20px; }
-    .experts-body {}
-    .experts-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 5px;
-    }
-    .experts-quote {
-      font-size: 14px;
-      color: #666;
-      line-height: 1.6;
-      font-style: italic;
-    }
-
-    /* Price box */
-    .price-box {
-      border: 1.5px solid #e8e8e8;
-      border-radius: 10px;
-      padding: 16px 18px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }
-    .price-col {}
-    .price-label { font-size: 12px; color: #999; margin-bottom: 4px; }
-    .price-amount { font-size: 26px; font-weight: 800; color: #111; }
-    .price-amount small { font-size: 13px; font-weight: 400; color: #bbb; }
-
-    /* CTA */
-    .card-cta {
-      padding: 0 0 26px;
-    }
-    .shop-btn {
-      display: block;
-      width: 100%;
-      background: #1e3a2a;
-      color: #fff;
-      text-decoration: none;
-      text-align: center;
-      padding: 16px;
-      border-radius: 99px;
-      font-size: 16px;
-      font-weight: 700;
-      transition: background 0.15s;
-      border: none;
-      cursor: pointer;
-    }
-    .shop-btn:hover { background: #2a5040; }card-checks {
+    .card-product-name:hover { text-decoration: underline; color: #1e3a2a; }
+    .card-checks {
       display: flex;
       flex-wrap: wrap;
       gap: 6px 24px;
@@ -870,13 +780,13 @@
     {
       id: 'budget',
       text: 'What\'s your budget for the charger unit?',
-      sub: 'Hardware only — professional installation is typically an extra £100–£300.
-      info: 'The price shown is for the hardware only. Most installers charge £150–£300 on top. If you\'re eligible for the OZEV grant (£350 off), check with your installer.',
+      sub: 'Hardware only — professional installation is typically an extra £100–£300.',
+      info: 'The OZEV grant (£350) may also be available for eligible properties, which can bring the effective cost down further. Your installer can advise on eligibility.',
       options: [
-        { v: 'low',    label: 'Under £500',   desc: 'Looking for the best value option' },
-        { v: 'mid',    label: '£500–£800',    desc: 'Happy to pay for a premium charger' },
-        { v: 'high',   label: '£800+',        desc: 'Budget is no object — I want the best' },
-        { v: 'unsure', label: 'Not sure yet', desc: 'Show me what\'s available across all budgets' }
+        { v: 'low',    label: 'Under £500',   desc: 'Great value, reliable daily charging' },
+        { v: 'mid',    label: '£500–£800',    desc: 'Smart features and quality build' },
+        { v: 'high',   label: '£800+',        desc: 'Premium design and performance' },
+        { v: 'unsure', label: 'Not sure yet', desc: 'Show me the best match regardless' }
       ]
     }
   ];
@@ -885,37 +795,37 @@
   const products = [
     {
       id: 'zappi',
-      brand: 'myenergi',
+      brand: 'MyEnergi',
       logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Myenergi_logo.png?v=1771167887',
       imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/My-1.png',
-      name: 'myenergi Zappi EV Charger',
-      tagline: 'The smart solar charger',
+      name: 'Zappi 7.4kW EV Charger',
+      tagline: 'The smart eco-charger built for solar',
       rating: '4.8',
-      checks: ['Solar & wind divert charging', 'Octopus Intelligent Go ready', 'App scheduling & energy tracking'],
-      tariffs: ['octopus'],
-      expertQuote: 'The Zappi is the go-to choice if you have solar panels or want the most intelligent charging. It can divert surplus solar energy directly into your car — often meaning free miles.',
-      price: 'From £699',
-      url: 'https://www.echargersuk.co.uk/products/myenergi-zappi-22kw-ev-charger-untethered',
+      checks: ['Solar divert charging', 'Tethered or untethered', '7.4kW (22kW 3-phase option)'],
+      tariffs: ['octopus', 'ovo'],
+      expertQuote: 'The smartest choice if you have — or plan to get — solar panels. The Zappi automatically uses your surplus solar energy to charge your car, often for free.',
+      price: 'From £515',
+      url: 'https://www.echargersuk.co.uk/products/myenergi-zappi-2h22tb-7kw-22kw-multi-phase-tethered-black',
       scores: {
         supply_single:2, supply_three:3, supply_unsure:2,
-        cable_tethered:1, cable_untethered:3, cable_nopref:2,
-        solar_yes:5, solar_no:0,
-        tariff_octopus:4, tariff_ovo:2, tariff_other:3, tariff_none:1,
-        budget_low:0, budget_mid:2, budget_high:4, budget_unsure:2
+        cable_tethered:2, cable_untethered:1, cable_nopref:2,
+        solar_yes:5, solar_no:1,
+        tariff_octopus:3, tariff_ovo:2, tariff_other:2, tariff_none:1,
+        budget_low:0, budget_mid:3, budget_high:2, budget_unsure:2
       }
     },
     {
       id: 'ohme',
       brand: 'Ohme',
       logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme_logo.png?v=1771167890',
-      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme-Home-Pro-Tethered-5m.png',
-      name: 'Ohme Home Pro EV Charger',
-      tagline: 'Smart tariff charging done right',
+      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme_Home_Pro_5m_-_1.png',
+      name: 'Ohme Home Pro Smart Charger',
+      tagline: 'Built around smart tariffs',
       rating: '4.7',
-      checks: ['Native Octopus & OVO integration', 'Schedule charging from your phone', 'Clean compact design'],
-      tariffs: ['octopus','ovo'],
-      expertQuote: 'If you\'re on Octopus Intelligent Go or OVO Charge Anytime, the Ohme is purpose-built for you. It communicates directly with your tariff to charge at the cheapest possible rate — automatically.',
-      price: 'From £379',
+      checks: ['Auto-charges at cheapest rate', 'Built-in display screen', 'Tethered 5m cable'],
+      tariffs: ['octopus', 'ovo'],
+      expertQuote: 'If you\'re on Octopus or OVO, this is the one. The Ohme is built specifically around smart tariffs and will automatically charge your car at the cheapest overnight rate.',
+      price: 'From £495',
       url: 'https://www.echargersuk.co.uk/products/ohme-home-pro-7kw-tethered-5m-cable',
       scores: {
         supply_single:2, supply_three:1, supply_unsure:2,
@@ -1003,7 +913,7 @@
       </div>` : ''}
       <div class="options-grid animate" style="animation-delay:0.1s">
         ${q.options.map(o => `
-          <button class="option-btn ${answers[q.id] === o.v ? 'selected' : ''}" 
+          <button class="option-btn ${answers[q.id] === o.v ? 'selected' : ''}"
                   onclick="pick('${q.id}', '${o.v}', this)">
             <div class="radio-dot"></div>
             <div class="opt-text">
