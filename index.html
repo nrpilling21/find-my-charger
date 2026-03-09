@@ -317,7 +317,7 @@
        RESULTS — Heatable card style
     ════════════════════════════════ */
     .results-container {
-      max-width: 640px;
+      max-width: 1060px;
       margin: 0 auto;
       padding: 48px 24px 80px;
     }
@@ -333,21 +333,55 @@
     }
     .results-header p { font-size: 16px; color: #999; }
 
+    /* Side-by-side grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+      align-items: start;
+    }
+    @media (max-width: 700px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+
     /* Result card — split layout */
     .result-card {
       border-radius: 20px;
       overflow: hidden;
       border: 1px solid #e0e0e0;
-      margin-bottom: 20px;
     }
     .result-card.top { border-color: #1e3a2a; border-width: 2px; }
+
+    /* Brand logo strip — above the hero image, Heatable-style */
+    .card-brand-strip {
+      background: #fff;
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-brand-strip img {
+      height: 28px;
+      width: auto;
+      max-width: 110px;
+      object-fit: contain;
+      display: block;
+    }
+    .card-brand-strip .card-hero-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0;
+    }
 
     /* Card image/header area */
     .card-hero {
       background: #dff0eb;
-      padding: 20px 22px 28px;
+      padding: 16px 22px 20px;
       position: relative;
-      min-height: 160px;
+      min-height: 140px;
       display: flex;
       flex-direction: column;
     }
@@ -355,7 +389,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 0;
     }
     .badge-primary {
       background: #1e3a2a;
@@ -372,11 +406,10 @@
       font-weight: 600;
       padding: 5px 12px;
       border-radius: 99px;
-    }
-    .card-hero-star {
+    }    .card-hero-star {
       position: absolute;
-      bottom: 18px;
-      right: 20px;
+      bottom: 14px;
+      right: 16px;
       font-size: 13px;
       font-weight: 700;
       color: #7a6000;
@@ -387,38 +420,58 @@
       align-items: center;
       gap: 4px;
     }
-    /* Brand logo overlay — top-right of hero */
-    .card-hero-brand {
-      position: absolute;
-      top: 16px;
-      right: 18px;
-      background: rgba(255,255,255,0.82);
-      border-radius: 8px;
-      padding: 5px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card-hero-brand img {
-      height: 20px;
-      width: auto;
-      max-width: 80px;
-      object-fit: contain;
-      display: block;
-    }
     .card-hero-img {
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
-      padding: 16px 0 8px;
+      padding: 14px 0 6px;
     }
     .card-hero-img img {
-      height: 170px;
+      height: 150px;
       width: auto;
-      max-width: 280px;
+      max-width: 240px;
       object-fit: contain;
-      mix-blend-mode: multiply; /* removes white background */
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Answer recap ── */
+    .answer-recap {
+      background: #f7f7f7;
+      border-radius: 14px;
+      padding: 28px 28px 8px;
+      margin-bottom: 20px;
+    }
+    .answer-recap h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 4px;
+    }
+    .answer-recap-sub {
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 20px;
+    }
+    .answer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-top: 1px solid #e8e8e8;
+      gap: 16px;
+    }
+    .answer-q {
+      font-size: 14px;
+      color: #555;
+      flex: 1;
+    }
+    .answer-a {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111;
+      text-align: right;
+      flex-shrink: 0;
     }
     /* Tariff compatibility row */
     .tariff-row {
@@ -464,8 +517,99 @@
       text-decoration: none;
       display: block;
     }
-    .card-product-name:hover { text-decoration: underline; color: #1e3a2a; }
-    .card-checks {
+    .card-product-name:hover { text-decoration: underline; color: #1e3a2a; }    .card-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 24px;
+      margin-bottom: 18px;
+    }
+    .card-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      color: #444;
+      font-weight: 500;
+    }
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #eef7ee;
+      border: 1.5px solid #2e7d52;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .check-icon svg { width: 10px; height: 10px; stroke: #2e7d52; stroke-width: 2.5; fill: none; }
+
+    /* Experts say box */
+    .experts-box {
+      border: 1.5px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .experts-icon {
+      color: #2e7d52;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .experts-icon svg { width: 20px; height: 20px; }
+    .experts-body {}
+    .experts-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .experts-quote {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* Price box */
+    .price-box {
+      border: 1.5px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .price-col {}
+    .price-label { font-size: 12px; color: #999; margin-bottom: 4px; }
+    .price-amount { font-size: 26px; font-weight: 800; color: #111; }
+    .price-amount small { font-size: 13px; font-weight: 400; color: #bbb; }
+
+    /* CTA */
+    .card-cta {
+      padding: 0 0 26px;
+    }
+    .shop-btn {
+      display: block;
+      width: 100%;
+      background: #1e3a2a;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      padding: 16px;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 700;
+      transition: background 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+    .shop-btn:hover { background: #2a5040; }card-checks {
       display: flex;
       flex-wrap: wrap;
       gap: 6px 24px;
@@ -706,9 +850,6 @@
       text: 'Do you have (or plan to get) solar panels?',
       sub: 'Some chargers can use your surplus solar energy to charge your car for free.',
       info: 'Solar-compatible chargers detect when your panels are generating surplus electricity and automatically use it to charge your car — often completely free of charge.',
-      images: [
-        { src: 'https://www.echargersuk.co.uk/cdn/shop/files/My-1.png', label: 'Zappi — charges from solar' }
-      ],
       options: [
         { v: 'yes', label: 'Yes — I have or plan to get solar', desc: 'I want to maximise free solar charging' },
         { v: 'no',  label: 'No solar panels',                  desc: 'Just grid electricity at home' }
@@ -729,13 +870,13 @@
     {
       id: 'budget',
       text: 'What\'s your budget for the charger unit?',
-      sub: 'Hardware only — professional installation is typically an extra £100–£300.',
-      info: 'The OZEV grant (£350) may also be available for eligible properties, which can bring the effective cost down further. Your installer can advise on eligibility.',
+      sub: 'Hardware only — professional installation is typically an extra £100–£300.
+      info: 'The price shown is for the hardware only. Most installers charge £150–£300 on top. If you\'re eligible for the OZEV grant (£350 off), check with your installer.',
       options: [
-        { v: 'low',    label: 'Under £500',   desc: 'Great value, reliable daily charging' },
-        { v: 'mid',    label: '£500–£800',    desc: 'Smart features and quality build' },
-        { v: 'high',   label: '£800+',        desc: 'Premium design and performance' },
-        { v: 'unsure', label: 'Not sure yet', desc: 'Show me the best match regardless' }
+        { v: 'low',    label: 'Under £500',   desc: 'Looking for the best value option' },
+        { v: 'mid',    label: '£500–£800',    desc: 'Happy to pay for a premium charger' },
+        { v: 'high',   label: '£800+',        desc: 'Budget is no object — I want the best' },
+        { v: 'unsure', label: 'Not sure yet', desc: 'Show me what\'s available across all budgets' }
       ]
     }
   ];
@@ -744,37 +885,37 @@
   const products = [
     {
       id: 'zappi',
-      brand: 'MyEnergi',
+      brand: 'myenergi',
       logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Myenergi_logo.png?v=1771167887',
       imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/My-1.png',
-      name: 'Zappi 7.4kW EV Charger',
-      tagline: 'The smart eco-charger built for solar',
+      name: 'myenergi Zappi EV Charger',
+      tagline: 'The smart solar charger',
       rating: '4.8',
-      checks: ['Solar divert charging', 'Tethered or untethered', '7.4kW (22kW 3-phase option)'],
-      tariffs: ['octopus', 'ovo'],
-      expertQuote: 'The smartest choice if you have — or plan to get — solar panels. The Zappi automatically uses your surplus solar energy to charge your car, often for free.',
-      price: 'From £515',
-      url: 'https://www.echargersuk.co.uk/products/myenergi-zappi-2h22tb-7kw-22kw-multi-phase-tethered-black',
+      checks: ['Solar & wind divert charging', 'Octopus Intelligent Go ready', 'App scheduling & energy tracking'],
+      tariffs: ['octopus'],
+      expertQuote: 'The Zappi is the go-to choice if you have solar panels or want the most intelligent charging. It can divert surplus solar energy directly into your car — often meaning free miles.',
+      price: 'From £699',
+      url: 'https://www.echargersuk.co.uk/products/myenergi-zappi-22kw-ev-charger-untethered',
       scores: {
         supply_single:2, supply_three:3, supply_unsure:2,
-        cable_tethered:2, cable_untethered:1, cable_nopref:2,
-        solar_yes:5, solar_no:1,
-        tariff_octopus:3, tariff_ovo:2, tariff_other:2, tariff_none:1,
-        budget_low:0, budget_mid:3, budget_high:2, budget_unsure:2
+        cable_tethered:1, cable_untethered:3, cable_nopref:2,
+        solar_yes:5, solar_no:0,
+        tariff_octopus:4, tariff_ovo:2, tariff_other:3, tariff_none:1,
+        budget_low:0, budget_mid:2, budget_high:4, budget_unsure:2
       }
     },
     {
       id: 'ohme',
       brand: 'Ohme',
       logoUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme_logo.png?v=1771167890',
-      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme_Home_Pro_5m_-_1.png',
-      name: 'Ohme Home Pro Smart Charger',
-      tagline: 'Built around smart tariffs',
+      imageUrl: 'https://www.echargersuk.co.uk/cdn/shop/files/Ohme-Home-Pro-Tethered-5m.png',
+      name: 'Ohme Home Pro EV Charger',
+      tagline: 'Smart tariff charging done right',
       rating: '4.7',
-      checks: ['Auto-charges at cheapest rate', 'Built-in display screen', 'Tethered 5m cable'],
-      tariffs: ['octopus', 'ovo'],
-      expertQuote: 'If you\'re on Octopus or OVO, this is the one. The Ohme is built specifically around smart tariffs and will automatically charge your car at the cheapest overnight rate.',
-      price: 'From £495',
+      checks: ['Native Octopus & OVO integration', 'Schedule charging from your phone', 'Clean compact design'],
+      tariffs: ['octopus','ovo'],
+      expertQuote: 'If you\'re on Octopus Intelligent Go or OVO Charge Anytime, the Ohme is purpose-built for you. It communicates directly with your tariff to charge at the cheapest possible rate — automatically.',
+      price: 'From £379',
       url: 'https://www.echargersuk.co.uk/products/ohme-home-pro-7kw-tethered-5m-cable',
       scores: {
         supply_single:2, supply_three:1, supply_unsure:2,
@@ -862,7 +1003,7 @@
       </div>` : ''}
       <div class="options-grid animate" style="animation-delay:0.1s">
         ${q.options.map(o => `
-          <button class="option-btn ${answers[q.id] === o.v ? 'selected' : ''}"
+          <button class="option-btn ${answers[q.id] === o.v ? 'selected' : ''}" 
                   onclick="pick('${q.id}', '${o.v}', this)">
             <div class="radio-dot"></div>
             <div class="opt-text">
@@ -928,13 +1069,12 @@
     return `
       <div class="result-card ${isTop ? 'top' : 'alt'} animate" style="animation-delay:${isTop ? '0.1' : '0.18'}s">
 
+        <div class="card-brand-strip">
+          <img src="${p.logoUrl}" alt="${p.brand}" />
+          <span class="${badgeClass}">${badgeLabel}</span>
+        </div>
+
         <div class="card-hero">
-          <div class="card-hero-badges">
-            <span class="${badgeClass}">${badgeLabel}</span>
-          </div>
-          <div class="card-hero-brand">
-            <img src="${p.logoUrl}" alt="${p.brand}" />
-          </div>
           <div class="card-hero-star">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="#e6a817" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -997,6 +1137,53 @@
     `;
   }
 
+  // ─── Answer recap labels ──────────────────────────────────────────────────
+  const qLabels = {
+    supply: 'Home electrical supply',
+    cable:  'Charger connection type',
+    solar:  'Solar panels',
+    tariff: 'Energy tariff',
+    budget: 'Budget for charger unit'
+  };
+  const aLabels = {
+    supply_single:    'Single-phase',
+    supply_three:     'Three-phase',
+    supply_unsure:    'Not sure',
+    cable_tethered:   'Tethered',
+    cable_untethered: 'Untethered',
+    cable_nopref:     'No preference',
+    solar_yes:        'Yes — have or planning solar',
+    solar_no:         'No solar panels',
+    tariff_octopus:   'Octopus Intelligent Go',
+    tariff_ovo:       'OVO Charge Anytime',
+    tariff_other:     'Another smart tariff',
+    tariff_none:      'No smart tariff',
+    budget_low:       'Under £500',
+    budget_mid:       '£500–£800',
+    budget_high:      '£800+',
+    budget_unsure:    'Not sure yet'
+  };
+
+  function buildAnswerRecap(ans) {
+    const rows = Object.entries(ans).map(([qId, val]) => {
+      const q = qLabels[qId] || qId;
+      const a = aLabels[`${qId}_${val}`] || val;
+      return `<div class="answer-row">
+        <span class="answer-q">${q}</span>
+        <span class="answer-a">${a}</span>
+      </div>`;
+    }).join('');
+    return `
+      <div class="answer-recap animate" style="animation-delay:0.28s">
+        <h3>Your answers</h3>
+        <p class="answer-recap-sub">Here's what your recommendation is based on.</p>
+        ${rows}
+        <div style="padding:16px 0 4px; text-align:right;">
+          <button class="retake-btn" onclick="retake()">↺ Restart quiz</button>
+        </div>
+      </div>`;
+  }
+
   function showResults() {
     hide('screen-quiz');
     hide('progress-section');
@@ -1006,21 +1193,21 @@
 
     el('results-inner').innerHTML = `
       <div class="results-header animate">
-        <h2>Your perfect match ⚡</h2>
+        <h2>Your perfect match</h2>
         <p>Based on your answers, here's what we recommend.</p>
       </div>
 
-      ${buildResultCard(top, true)}
-      ${buildResultCard(alt, false)}
+      <div class="cards-grid">
+        ${buildResultCard(top, true)}
+        ${buildResultCard(alt, false)}
+      </div>
 
       <div class="expert-cta animate" style="animation-delay:0.26s">
         <p>Still not sure? Our team is happy to help you choose.</p>
         <a href="mailto:info@echargersuk.co.uk">Chat to our experts</a>
       </div>
 
-      <div class="retake-wrap animate" style="animation-delay:0.3s">
-        <button class="retake-btn" onclick="retake()">← Start again with different answers</button>
-      </div>
+      ${buildAnswerRecap(answers)}
     `;
 
     show('screen-results');
